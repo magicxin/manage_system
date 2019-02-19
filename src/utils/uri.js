@@ -1,5 +1,6 @@
 export default{
   home: '/search/home',
-  login:'/community_manage/admin/login',
-  signout:'community_manage/admin/signout'
+  login:'/community_manage/user/login',
+  signout:'community_manage/user/signout',
+  signin:'community_manage/user/create'
 }

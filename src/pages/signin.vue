@@ -1,22 +1,26 @@
 <template>
-  <div class="login">
-    <el-card class="login__loginbox" shadow="hover">
+  <div class="signin">
+    <el-card class="signin__signinbox" shadow="hover">
       <header slot="header">
         后台管理系统
       </header>
-      <el-form class="login__loginform" :model="loginForm" status-icon :rules="rules" ref="loginForm">
+      <el-form class="signin__signinform" :model="signinForm" status-icon :rules="rules" ref="signinForm">
         <el-form-item prop="username">
-          <el-input type="text" v-model="loginForm.username" autocomplete="off">
+          <el-input type="text" v-model="signinForm.username" autocomplete="off">
             <el-button slot="prepend" icon="el-icon-news"></el-button>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="password" v-model="loginForm.password" autocomplete="off">
+          <el-input type="password" v-model="signinForm.password" autocomplete="off">
             <el-button slot="prepend" icon="el-icon-view"></el-button>
           </el-input>
         </el-form-item>
-        <router-link class="login__signup" to="signin">注册新用户</router-link>
-        <el-button class="login__loginbtn" type="primary" @click="submitForm('loginForm')">提交</el-button>
+        <el-form-item prop="pass">
+          <el-input type="password" v-model="signinForm.pass" autocomplete="off">
+            <el-button slot="prepend" icon="el-icon-view"></el-button>
+          </el-input>
+        </el-form-item>
+        <el-button class="signin__signinbtn" type="primary" @click="submitForm('signinForm')">提交</el-button>
       </el-form>
     </el-card>
   </div>
@@ -25,7 +29,7 @@
 <script>
   import uri from 'utils/uri' 
   export default {
-    name: 'login',
+    name: 'signin',
     data() {
       var validateUsername = (rule, value, callback) => {
         if (value === '') {
@@ -41,10 +45,21 @@
           callback();
         }
       };
+      var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else if(this.signinForm.password === this.signinForm.pass) {
+          console.log(this.pass)
+          callback();
+        }else {
+          callback(new Error('两次输入密码不一致'));
+        }
+      };
       return {
-        loginForm: {
+        signinForm: {
           username: '',
-          password: ''
+          password: '',
+          pass: ''
         },
         rules: {
           username: [
@@ -52,6 +67,9 @@
           ],
           password: [
             { validator: validatePassword, trigger: 'blur' }
+          ],
+          pass:[
+            { validator: validatePass, trigger: 'blur' }
           ]
         }
       }
@@ -63,9 +81,12 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$post(uri.login).then(res=>{
-              console.log(this.$router)
-              this.$router.push('/home')
+            this.$post(uri.signin,{
+              username:'111',
+              password:'222',
+              pass:'222'
+            }).then(res=>{
+              console.log(res)
             })
             .catch(err=>{
 //            console.log(err)
@@ -82,17 +103,16 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-  .login {
+  .signin {
     height:100vh;
     display:flex;
     justify-content: center;
     align-items: center;
     background:#409EFF;
-    &__loginbtn {
+    &__signinbtn {
       width:100%;
     }
     &__signup {
-      cursor: pointer;
       font-size:.8rem;
       color:#999;
       margin-bottom:.4rem;

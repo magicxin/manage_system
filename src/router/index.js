@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/pages/login'
+import signin from '@/pages/signin'
 import home from '@/pages/home'
 import news from '@/pages/news'
 Vue.use(Router)
@@ -21,8 +22,18 @@ const router = new Router({
       }
     },
     {
+      path: '/signin',
+      name: 'signin',
+      component: signin,
+      meta: {
+        auth:false,
+        keepAlive: false
+      }
+    },
+    {
       path: '/',
       component: home,
+      redirect: '/home',
       meta: {
         auth:true,
         keepAlive: false
