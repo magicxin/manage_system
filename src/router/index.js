@@ -3,6 +3,10 @@ import Router from 'vue-router'
 import login from '@/pages/login'
 import signin from '@/pages/signin'
 import home from '@/pages/home'
+import auth from '@/pages/admin/auth'
+import user from '@/pages/admin/user'
+import userInfo from '@/pages/admin/user-info'
+import resetPassword from '@/pages/admin/reset-password'
 import news from '@/pages/news'
 Vue.use(Router)
 
@@ -39,13 +43,46 @@ const router = new Router({
         keepAlive: false
       },
       children:[{
-        path: 'home',
+        path: '/home',
         name: 'home',
         component: news,
         meta: {
           auth:true,
           keepAlive: false
         }
+      },{
+        path: '/auth',
+        name: 'auth',
+        component: auth,
+        meta: {
+          auth:true,
+          keepAlive: false
+        }
+      },{
+        path: '/user',
+        name: 'user',
+        component: user,
+        meta: {
+          auth:true,
+          keepAlive: false
+        },
+        children:[{
+          path: '/user/user_info',
+          name: 'user_info',
+          component: userInfo,
+          meta: {
+            auth:true,
+            keepAlive: false
+          }
+        },{
+          path: '/user/reset_password',
+          name: 'reset_password',
+          component: resetPassword,
+          meta: {
+            auth:true,
+            keepAlive: false
+          }
+        }]
       }]
     }
   ]

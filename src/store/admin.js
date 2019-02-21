@@ -1,8 +1,7 @@
 
 const state = {
-  isLogin:false,
-  type:'', // 0 超级管理员 1 系统管理员 2 用户
-  token: window.localStorage.getItem('token'),
+  token:localStorage.getItem('token'),
+  user:JSON.parse(window.localStorage.getItem('user'))
 }
 
 //// getters
@@ -59,16 +58,22 @@ const state = {
 //}
 
 const mutations = {
-    LOGIN: (state, data) => {
-        //更改token的值
-        state.token = data;
-        window.localStorage.setItem('token', data);
-    },
-    SIGNOUT: (state) => {
-        //登出的时候要清除token
-        state.token = null;
-        window.localStorage.removeItem('token');
-    },
+  updateUser(state, data) {
+    window.localStorage.setItem('user', JSON.stringify(data));
+    state.user = JSON.parse(window.localStorage.getItem('user'));
+  },
+//login(state, data) {
+//  //更改token的值
+//  state.token = data;
+//  window.localStorage.setItem('token', data);
+//},
+  signout(state) {
+    //登出的时候要清除token
+    state.token = null;
+    state.user = null;
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
+  },
 };
 
 export default {

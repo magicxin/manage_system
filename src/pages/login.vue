@@ -7,12 +7,12 @@
       <el-form class="login__loginform" :model="loginForm" status-icon :rules="rules" ref="loginForm">
         <el-form-item prop="username">
           <el-input type="text" v-model="loginForm.username" autocomplete="off">
-            <el-button slot="prepend" icon="el-icon-news"></el-button>
+            <span slot="prepend">账号</span>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input type="password" v-model="loginForm.password" autocomplete="off">
-            <el-button slot="prepend" icon="el-icon-view"></el-button>
+            <span slot="prepend">密码</span>
           </el-input>
         </el-form-item>
         <router-link class="login__signup" to="signin">注册新用户</router-link>
@@ -63,12 +63,15 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$post(uri.login).then(res=>{
-              console.log(this.$router)
+            this.$post(uri.login,{
+              username:this.loginForm.username,
+              password:this.loginForm.password
+            }).then(res=>{
+              this.$store.commit('admin/updateUser',res)
               this.$router.push('/home')
             })
             .catch(err=>{
-//            console.log(err)
+              this.$message(err.message);
             })
           } else {
             console.log('error submit!!')
@@ -92,6 +95,7 @@
       width:100%;
     }
     &__signup {
+      display:flex;
       cursor: pointer;
       font-size:.8rem;
       color:#999;

@@ -2,22 +2,22 @@
   <div class="signin">
     <el-card class="signin__signinbox" shadow="hover">
       <header slot="header">
-        后台管理系统
+              账号注册
       </header>
       <el-form class="signin__signinform" :model="signinForm" status-icon :rules="rules" ref="signinForm">
         <el-form-item prop="username">
           <el-input type="text" v-model="signinForm.username" autocomplete="off">
-            <el-button slot="prepend" icon="el-icon-news"></el-button>
+            <span slot="prepend">账号</span>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input type="password" v-model="signinForm.password" autocomplete="off">
-            <el-button slot="prepend" icon="el-icon-view"></el-button>
+            <span slot="prepend">密码</span>
           </el-input>
         </el-form-item>
         <el-form-item prop="pass">
           <el-input type="password" v-model="signinForm.pass" autocomplete="off">
-            <el-button slot="prepend" icon="el-icon-view"></el-button>
+            <span slot="prepend">确认</span>
           </el-input>
         </el-form-item>
         <el-button class="signin__signinbtn" type="primary" @click="submitForm('signinForm')">提交</el-button>
@@ -82,14 +82,15 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$post(uri.signin,{
-              username:'111',
-              password:'222',
-              pass:'222'
+              username:this.signinForm.username,
+              password:this.signinForm.password,
+              pass:this.signinForm.pass
             }).then(res=>{
-              console.log(res)
+              this.$message('注册成功');
+              this.$router.replace('login');
             })
             .catch(err=>{
-//            console.log(err)
+              this.$message(err.message);
             })
           } else {
             console.log('error submit!!')
