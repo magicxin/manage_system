@@ -16,7 +16,7 @@
       <el-menu-item index="6">物业缴费</el-menu-item>
       <el-menu-item index="7">费用查询</el-menu-item>
       <el-menu-item index="user_info">个人信息</el-menu-item>
-      <el-menu-item index="auth">用户管理</el-menu-item>
+      <el-menu-item v-if="user.type !== '2'" index="auth">用户管理</el-menu-item>
     </el-menu>
     <div class="options">
       <div class="option-item" @click="signout">退出</div>
@@ -31,6 +31,7 @@
     data() {
       return {
         active: 'home',
+        user:this.$store.state.admin.user
       }
     },
     created() {

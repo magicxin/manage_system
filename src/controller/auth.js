@@ -1,11 +1,12 @@
 import uri from 'utils/uri'
 import utils from 'utils/tools'
+import { ADMIN_TYPE,ADMIN_STATU } from 'utils/enum'
 /*
  @desc 获取用户列表
  * */
-function getUser() {
+function getUser(type) {
   return new Promise((resolve,reject)=>{
-    this.$get(uri.getUser).then(res=>{
+    this.$get(uri.getUser,{params:{type:type}}).then(res=>{
       resolve(makeData(res))
     })
     .catch(err=>{
@@ -17,18 +18,39 @@ function makeData(res) {
   let newArr = []
   if(res.users.length>0) {
     res.users.forEach((item,index)=>{
-      
       newArr.push({
+        username:item.username,
         name:item.nickname,
         address:item.house&&item.house.address || '-',
         date:utils.dateFormat(item.meta.createAt),
-        type:item.type.name,
-        statu:item.statu.name
+        type:{
+          name:ADMIN_TYPE[item.type],
+          value:item.type
+        },
+        statu:{
+          name:ADMIN_STATU[item.statu],
+          value:item.statu
+        },
       })
     })
   }
   return newArr
 }
+
+/*
+ @desc 审核用户
+ * */
+function checkUser(username) {
+  return new Promise((resolve,reject)=>{
+    this.$post(uri.checkUser,{username:username}).then(res=>{
+      resolve(res)
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
 export {
-  getUser
+  getUser,
+  checkUser
 }

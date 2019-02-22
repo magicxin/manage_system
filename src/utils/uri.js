@@ -4,4 +4,5 @@ export default{
   signout:'community_manage/user/signout',
   signin:'community_manage/user/create',
   getUser:'community_manage/user/search',
+  checkUser:'community_manage/user/check',
 }
