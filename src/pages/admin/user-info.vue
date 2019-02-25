@@ -15,13 +15,13 @@
           <el-input v-model="form.carNum"></el-input>
         </el-form-item>
         <el-form-item label="地址：">
-          <span>{{ form.address }}</span>
+          <el-input v-model="form.address"></el-input>
         </el-form-item>
         <el-form-item label="权限：">
-          <span>{{ form.type.name }}</span>
+          <span>{{ ADMIN_TYPE[form.type] }}</span>
         </el-form-item>
         <div class="save-btn">
-          <el-button type="primary" @click="">保存</el-button>
+          <el-button type="primary" @click="update">保存</el-button>
         </div>
       </el-form>
     </el-card>
@@ -29,27 +29,39 @@
 </template>
 
 <script>
+  import { ADMIN_TYPE,ADMIN_STATU } from 'utils/enum'
+  import { update } from 'controller/auth'
   export default {
     name: 'user_info',
     data() {
       return {
-        form: {}
+        form: {},
+        ADMIN_TYPE,
+        user: this.$store.state.admin.user,
       }
     },
     created() {
-      let user = this.$store.state.admin.user
-      console.log(user)
       this.form = {
-        username:user.username,
-        nickname:user.nickname,
-        password: user.password,
-        carNum:user.car&&user.car.carNum || '',
-        address:user.house&&user.house.address || '',
-        type:user.type
+        username:this.user.username,
+        nickname:this.user.nickname,
+        password: this.user.password,
+        carNum:this.user.car&&this.user.car.carNumber || '',
+        address:this.user.house&&this.user.house.address || '',
+        type:this.user.type
       }
     },
     methods: {
-      
+      update() {
+        update.bind(this)({
+          username:this.user.username,
+          nickname:this.form.nickname,
+          car:{carNumber:this.form.carNum},
+          house:{address:this.form.address}
+        }).then(res=>{
+          this.$store.commit('admin/updateUser',res.user)
+          this.$message('保存成功')
+        })
+      }
     }
   }
 </script>

@@ -6,12 +6,19 @@ import router from './router'
 import '@/css/normalize.css'
 import '@/css/reset.css'
 import 'element-ui/lib/theme-chalk/display.css'
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 import config from '../config'
 import utils from 'utils/rest'
 import store from 'store/store'
+import VueQuillEditor from 'vue-quill-editor'
 
 import ElementUI from 'element-ui';
 Vue.use(ElementUI)
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 Vue.config.productionTip = false
 if(process.env.NODE_ENV==='development' && config.dev.mock) {

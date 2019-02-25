@@ -50,7 +50,36 @@ function checkUser(username) {
     })
   })
 }
+
+/*
+ @desc 修改用户权限
+ * */
+function changeAuth(params) {
+  return new Promise((resolve,reject)=>{
+    this.$post(uri.changeAuth,params).then(res=>{
+      resolve(res)
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
+/*
+ @desc 更改用户信息
+ * */
+function update(params) {
+  return new Promise((resolve,reject)=>{
+    this.$post(uri.update,params).then(res=>{
+      resolve(res)
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
 export {
   getUser,
-  checkUser
+  checkUser,
+  changeAuth,
+  update
 }

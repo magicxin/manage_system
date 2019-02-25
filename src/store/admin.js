@@ -1,4 +1,4 @@
-
+import router from '../router'
 const state = {
   token:localStorage.getItem('token'),
   user:JSON.parse(window.localStorage.getItem('user'))
@@ -69,6 +69,7 @@ const mutations = {
 //},
   signout(state) {
     //登出的时候要清除token
+    router.replace('login')
     state.token = null;
     state.user = null;
     window.localStorage.removeItem('token');

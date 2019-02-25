@@ -20,6 +20,11 @@
             <span slot="prepend">确认</span>
           </el-input>
         </el-form-item>
+        <!--<el-form-item prop="address">
+          <el-input type="text" v-model="signinForm.address" autocomplete="off">
+            <span slot="prepend">住址</span>
+          </el-input>
+        </el-form-item>-->
         <el-button class="signin__signinbtn" type="primary" @click="submitForm('signinForm')">提交</el-button>
       </el-form>
     </el-card>
@@ -55,11 +60,19 @@
           callback(new Error('两次输入密码不一致'));
         }
       };
+      var validateAddress = (rule,value,callback)=>{
+        if (value === '') {
+          callback(new Error('请输入住址'));
+        }else {
+          callback();
+        }
+      }
       return {
         signinForm: {
           username: '',
           password: '',
-          pass: ''
+          pass: '',
+          address:''
         },
         rules: {
           username: [
@@ -70,7 +83,10 @@
           ],
           pass:[
             { validator: validatePass, trigger: 'blur' }
-          ]
+          ],
+          address:[
+            { validator: validateAddress, trigger: 'blur' }
+          ],
         }
       }
     },

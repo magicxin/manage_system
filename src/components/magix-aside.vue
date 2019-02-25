@@ -28,7 +28,7 @@
       }
     },
     created() {
-      console.log(this.$store.state.admin.user)
+//    console.log(this.$store.state.admin.user)
     },
     computed: {
       onRoute() {

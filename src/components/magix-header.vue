@@ -49,8 +49,6 @@
       signout() {
         this.$post(uri.signout).then(res=>{
           this.$store.commit('admin/signout')
-//        window.localStorage.removeItem('token')
-          this.$router.push('login')
         })
       }
     }
