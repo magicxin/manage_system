@@ -1,6 +1,23 @@
 <template>
   <div class="news">
     <magix-control @add="add"></magix-control>
+    <div class="container">
+      <el-card class="box-card" v-for="(item,index) in news" :key="index" @click.native="openDetail(item)">
+        <div slot="header">
+          <span class="title">{{ item.title }}</span>
+        </div>
+        <div class="box-content">
+          <p class="sub">{{ item.sub }}</p>
+          <div class="foot">
+            <span class="author">{{ item.user.nickname }}</span>
+            <time class="time">{{ item.meta.updateAt|dateFormat }}</time>
+          </div>
+        </div>
+        <i class="el-icon-error delete" @click.stop="deleteNews(item)"></i>
+      </el-card>
+      <div class="empty" v-if="news.length === 0">暂无数据</div>
+    </div>
+    <el-pagination class="pagination" background layout="prev, pager, next" :total="length" @current-change="currentChange"></el-pagination>
     <el-dialog title="小区资讯" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="资讯标题" :label-width="formLabelWidth">
@@ -34,59 +51,127 @@
 </template>
 
 <script>
+  import utils from 'utils/tools'
   import magixControl from 'components/magix-control'
-  import { createNews,searchNews } from 'controller/news'
+  import { saveNews,searchNews,deleteNews } from 'controller/news'
   export default {
     name: 'news',
     components: { magixControl },
+    filters: {
+      dateFormat(d) {
+        return utils.dateFormat(d)
+      }
+    },
     data() {
       return {
         user:this.$store.state.admin.user,
+        news:[],
+        length:0,
         dialogFormVisible: false,
          formLabelWidth: '120px',
-         form: {
-          title: '',
-          type: '', // 1 租赁 2 新鲜事
-          sub: '',
-          content:'',
-          images:[]
-        },
-        content: '',
+         form: {},
         editorOption: {
           // some quill options
         }
       }
     },
     mounted() {
-      searchNews.bind(this)({type:'1'}).then(res=>{
-        console.log(res)
+      searchNews.bind(this)({count:10,index:0}).then(res=>{
+        this.news = res.news.slice(0,10)
+        this.length = res.length
       })
     },
     methods: {
+      initData(form) {
+        if(form) {
+            this.form = {
+            title: form.title,
+            type:  form.type,
+            sub:  form.sub,
+            content: form.content,
+            images: form.images,
+            _id:form._id
+          }
+        }else {
+          this.form = {
+            title: '',
+            type: '',
+            sub: '',
+            content: '',
+            images: '',
+            _id:''
+          }
+        }
+        
+      },
       add() {
+        this.initData()
+        this.dialogFormVisible = true
+      },
+      openDetail(form) {
+        this.initData(form)
         this.dialogFormVisible = true
       },
       onEditorBlur(quill) {
       },
       onEditorFocus(quill) {
-        console.log('editor focus!', quill)
+        
       },
       onEditorReady(quill) {
         
       },
       submit() {
         this.dialogFormVisible = false
-        createNews.bind(this)({
+        saveNews.bind(this)({
           title : this.form.title,
           sub : this.form.sub,
           images : this.form.images,
           content : this.form.content,
           type : this.form.type,
-          userId: this.user._id
+          userId: this.user._id,
+          _id:this.form._id,
         }).then(res=>{
-          console.log(res)
+//        this.news = res
         })
-      }
+      },
+      deleteNews(item) {
+        console.log(item)
+        this.deleteMsg('此操作将永久删除该文件, 是否继续?').then(()=>{
+          deleteNews.bind(this)({_id:item._id}).then(res=>{
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          })
+        })
+        
+      },
+      getList(i) {
+        searchNews.bind(this)({count:10,index:i-1}).then(res=>{
+        this.news = res.news.slice(0,10)
+      })
+      },
+      currentChange(i) {
+        console.log(i)
+        this.getList(i)
+      },
+//    open2() {
+//      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+//        confirmButtonText: '确定',
+//        cancelButtonText: '取消',
+//        type: 'warning'
+//      }).then(() => {
+//        this.$message({
+//          type: 'success',
+//          message: '删除成功!'
+//        });
+//      }).catch(() => {
+//        this.$message({
+//          type: 'info',
+//          message: '已取消删除'
+//        });          
+//      });
+//    }
     }
   }
 </script>
@@ -94,6 +179,52 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
   .news {
-    
+    display:flex;
+    flex-flow:column;
+    .container {
+      display:flex;
+      flex-wrap: wrap;
+      flex-grow: 1;
+      padding:2rem;
+    }
+    .box-card {
+      position:relative;
+      width:15%;
+      height:16vw;
+      margin-right:4rem;
+      .title {
+       font-weight: bold;
+       font-size: 16px;
+      }
+      .sub {
+        flex-grow: 1;
+      }
+      .foot {
+        width:100%;
+        position:absolute;
+        bottom:0;
+        left:0;
+        display:flex;
+        justify-content: space-between;
+        padding:20px;
+      }
+      .delete {
+        cursor: pointer;
+        position:absolute;
+        right:10px;
+        top:10px;
+        font-size: 25px;
+        color: #666;
+        z-index:10;
+      }
+    }
+    .box-content {
+      display:flex;
+      flex-flow:column;
+    }
+    .pagination {
+      padding:1rem 1rem 3rem 1rem;
+      text-align: center;
+    }
   }
 </style>

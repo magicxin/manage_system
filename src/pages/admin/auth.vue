@@ -9,7 +9,7 @@
       <el-table-column fixed="right" label="操作" width="100">
       <template slot-scope="scope">
         <el-button v-if="scope.row.statu.value === '1'" @click="handleCheck(scope.row)" type="text" size="small">审核</el-button>
-        <el-button v-if="user.name==='admin'" @click="changeAuth(scope.row)" type="text" size="small">权限</el-button>
+        <el-button v-if="user.username==='admin'" @click="changeAuth(scope.row)" type="text" size="small">权限</el-button>
       </template>
     </el-table-column>
     </el-table>

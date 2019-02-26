@@ -16,6 +16,7 @@ import utils from 'utils/rest'
 import store from 'store/store'
 import VueQuillEditor from 'vue-quill-editor'
 
+import mixins from './mixin/delete.mixin'
 import ElementUI from 'element-ui';
 Vue.use(ElementUI)
 Vue.use(VueQuillEditor, /* { default global options } */)

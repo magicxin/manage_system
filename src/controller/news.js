@@ -4,9 +4,9 @@ import utils from 'utils/tools'
 /*
  @desc 创建资讯
  * */
-function createNews(params) {
+function saveNews(params) {
   return new Promise((resolve,reject)=>{
-    this.$post(uri.createNews,params).then(res=>{
+    this.$post(uri.saveNews,params).then(res=>{
       resolve(res)
     })
     .catch(err=>{
@@ -27,6 +27,19 @@ function searchNews(params) {
     })
   })
 }
+/*
+ @desc 删除资讯
+ * */
+function deleteNews(params) {
+  return new Promise((resolve,reject)=>{
+    this.$post(uri.deleteNews,params).then(res=>{
+      resolve(res)
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
 //function makeData(res) {
 //let newArr = []
 //
@@ -34,6 +47,7 @@ function searchNews(params) {
 //}
 
 export {
-  createNews,
-  searchNews
+  saveNews,
+  searchNews,
+  deleteNews
 }

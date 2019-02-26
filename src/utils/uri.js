@@ -8,6 +8,7 @@ export default{
   update:'community_manage/user/update',
   
   // 资讯
-  createNews:'community_manage/news/create',
+  saveNews:'community_manage/news/save',
   searchNews:'community_manage/news/search',
+  deleteNews:'community_manage/news/delete',
 }

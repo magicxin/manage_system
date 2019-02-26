@@ -75,10 +75,11 @@
     .save-btn {
       text-align: center;
     }
+    .box-card {
+      width:50%;
+      margin:5rem;
+      padding:2rem;
+    }
   }
-  .box-card {
-    width:50%;
-    margin:5rem;
-    padding:2rem;
-  }
+  
 </style>
