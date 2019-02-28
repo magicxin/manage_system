@@ -11,4 +11,7 @@ export default{
   saveNews:'community_manage/news/save',
   searchNews:'community_manage/news/search',
   deleteNews:'community_manage/news/delete',
+  //房屋信息
+  saveHouse:'community_manage/house/save',
+  getList:'community_manage/house/list',
 }

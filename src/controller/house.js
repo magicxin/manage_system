@@ -1,0 +1,61 @@
+import uri from 'utils/uri'
+import utils from 'utils/tools'
+//import { ADMIN_TYPE,ADMIN_STATU } from 'utils/enum'
+/*
+ @desc 创建房屋信息
+ * */
+function saveHouse(params) {
+  return new Promise((resolve,reject)=>{
+    this.$post(uri.saveHouse,params).then(res=>{
+      resolve(res)
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
+/*
+ @desc 查看房屋信息列表
+ * */
+function getList(params) {
+  return new Promise((resolve,reject)=>{
+    this.$get(uri.getList,params).then(res=>{
+      resolve(makeTableData(res))
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
+/*
+ @desc 查看房屋信息列表
+ * */
+function getUserList(params) {
+  return new Promise((resolve,reject)=>{
+    this.$get(uri.getUser,{params:params}).then(res=>{
+      resolve(res)
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
+function makeTableData(res) {
+  let newArr = []
+  if(res.house.length>0) {
+    res.house.forEach((item,index)=>{
+      newArr.push({
+        community: item.community,
+        building:  item.building,
+        unit:  item.unit,
+        room: item.room,
+        numbered:item.numbered,
+        user:item.user
+      })
+    })
+  }
+  return newArr
+}
+export {
+  saveHouse,getList,getUserList
+}

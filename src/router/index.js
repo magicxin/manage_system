@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import login from '@/pages/login'
 import signin from '@/pages/signin'
 import home from '@/pages/home'
+import house from '@/pages/house'
+import tofix from '@/pages/tofix'
 import auth from '@/pages/admin/auth'
 import user from '@/pages/admin/user'
 import userInfo from '@/pages/admin/user-info'
@@ -46,6 +48,22 @@ const router = new Router({
         path: '/home',
         name: 'home',
         component: news,
+        meta: {
+          auth:true,
+          keepAlive: false
+        }
+      },{
+        path: '/house',
+        name: 'house',
+        component: house,
+        meta: {
+          auth:true,
+          keepAlive: false
+        }
+      },{
+        path: '/tofix',
+        name: 'tofix',
+        component: tofix,
         meta: {
           auth:true,
           keepAlive: false

@@ -8,13 +8,9 @@
       background-color="#409EFF"
       text-color="#fff"
       active-text-color="#ff0">
-      <el-menu-item index="home">小区资讯</el-menu-item>
-      <el-menu-item index="2">资讯管理</el-menu-item>
-      <el-menu-item index="3">信息查询</el-menu-item>
-      <el-menu-item index="4">用户反馈</el-menu-item>
-      <el-menu-item index="5">用户报修</el-menu-item>
-      <el-menu-item index="6">物业缴费</el-menu-item>
-      <el-menu-item index="7">费用查询</el-menu-item>
+      <el-menu-item index="home">资讯管理</el-menu-item>
+      <el-menu-item index="house">房屋信息</el-menu-item>
+      <el-menu-item index="tofix">用户报修</el-menu-item>
       <el-menu-item index="user_info">个人信息</el-menu-item>
       <el-menu-item v-if="user.type !== '2'" index="auth">用户管理</el-menu-item>
     </el-menu>
