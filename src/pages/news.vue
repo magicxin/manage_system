@@ -52,11 +52,16 @@
 
 <script>
   import utils from 'utils/tools'
+  import uri from 'utils/uri'
   import magixControl from 'components/magix-control'
   import { saveNews,searchNews,deleteNews } from 'controller/news'
+  import {quillEditor, Quill} from 'vue-quill-editor'
+  import {container, ImageExtend, QuillWatch} from 'utils/quill-image-extend-module'
+  Quill.register('modules/ImageExtend', ImageExtend)
+  
   export default {
     name: 'news',
-    components: { magixControl },
+    components: { magixControl,quillEditor },
     filters: {
       dateFormat(d) {
         return utils.dateFormat(d)
@@ -72,13 +77,34 @@
          form: {},
         editorOption: {
           // some quill options
+          modules: {
+            ImageExtend: {
+              loading: true,
+              name: 'img',
+              action: uri.upload,
+              response: (res) => {
+                return res.data
+              }
+            },
+            toolbar: {
+              container: container,
+              handlers: {
+                'image': function () {
+                  QuillWatch.emit(this.quill.id)
+                }
+              }
+            }
+          }
         }
       }
     },
     mounted() {
       searchNews.bind(this)({count:10,index:0}).then(res=>{
+        console.log(this)
         this.news = res.news.slice(0,10)
         this.length = res.length
+      },err=>{
+        console.log(err)
       })
     },
     methods: {

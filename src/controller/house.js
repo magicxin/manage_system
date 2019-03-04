@@ -33,7 +33,7 @@ function getList(params) {
 function getUserList(params) {
   return new Promise((resolve,reject)=>{
     this.$get(uri.getUser,{params:params}).then(res=>{
-      resolve(res)
+      resolve(makeUserTableData(res))
     })
     .catch(err=>{
       reject(err)
@@ -51,6 +51,20 @@ function makeTableData(res) {
         room: item.room,
         numbered:item.numbered,
         user:item.user
+      })
+    })
+  }
+  return newArr
+}
+function makeUserTableData(res) {
+  let newArr = []
+  if(res.users.length>0) {
+    res.users.forEach((item,index)=>{
+      newArr.push({
+        time:utils.dateFormat(item.meta.createAt),
+        nickname: item.nickname,
+        phoneNumber:item.phoneNumber,
+        _id:item._id
       })
     })
   }

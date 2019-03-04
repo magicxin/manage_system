@@ -14,12 +14,17 @@ import 'quill/dist/quill.bubble.css'
 import config from '../config'
 import utils from 'utils/rest'
 import store from 'store/store'
-import VueQuillEditor from 'vue-quill-editor'
+//import VueQuillEditor from 'vue-quill-editor'
+//import {quillEditor, Quill} from 'vue-quill-editor'
+//import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
 
-import mixins from './mixin/delete.mixin'
+  
+  
+import mixins from './mixin'
 import ElementUI from 'element-ui';
 Vue.use(ElementUI)
-Vue.use(VueQuillEditor, /* { default global options } */)
+//Vue.use(VueQuillEditor, /* { default global options } */)
+//Quill.register('modules/ImageExtend', ImageExtend)
 
 Vue.config.productionTip = false
 if(process.env.NODE_ENV==='development' && config.dev.mock) {

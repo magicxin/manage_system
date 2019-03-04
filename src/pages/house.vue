@@ -10,8 +10,8 @@
       <el-table-column prop="room" label="室" width="180"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small">审核</el-button>
-          <el-button type="text" size="small">权限</el-button>
+          <el-button type="text" size="small" @click="deleteHouse">删除</el-button>
+          <!--<el-button type="text" size="small">权限</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -29,11 +29,11 @@
         <el-form-item label="室" :label-width="formLabelWidth">
           <el-input v-model="form.room" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="是" :label-width="formLabelWidth">
+        <el-form-item label="房间码" :label-width="formLabelWidth">
           <el-input v-model="form.numbered" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="房主" :label-width="formLabelWidth">
-          <el-input v-model="form.numbered" autocomplete="off" @focus="showTable"></el-input>
+          <el-input v-model="form.userId" autocomplete="off" @focus="showTable"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -44,9 +44,9 @@
     
     <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
       <el-table :data="gridData" highlight-current-row @current-change="getUser">
-        <el-table-column property="date" label="日期" width="150"></el-table-column>
-        <el-table-column property="name" label="姓名" width="200"></el-table-column>
-        <el-table-column property="address" label="地址"></el-table-column>
+        <el-table-column property="time" label="日期" width="150"></el-table-column>
+        <el-table-column property="nickname" label="姓名" width="200"></el-table-column>
+        <el-table-column property="phoneNumber" label="电话"></el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogTableVisible = false">取 消</el-button>
@@ -72,33 +72,17 @@
         editorOption: {
           // some quill options
         },
-        gridData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
+        gridData: [],
         dialogTableVisible: false,
+        check_user:''
       }
     },
     created() {
       getList.bind(this)().then(res=>{
-        console.log(res)
         this.tableData = res
       })
       getUserList.bind(this)({type:'2'}).then(res=>{
-        console.log(res)
+        this.gridData = res
       })
     },
     methods: {
@@ -119,9 +103,12 @@
             unit: '',
             room: '',
             numbered:'',
-            userId:'5c6f3dd08fe249093840de18'
+            userId:''
           }
         }
+      },
+      deleteHouse() {
+        
       },
       add() {
         this.initData()
@@ -135,11 +122,12 @@
       showTable() {
         this.dialogTableVisible = true
       },
-      checkUser() {
-        
+      checkUser(v) {
+        this.form.userId = this.check_user
+        this.dialogTableVisible = false
       },
       getUser(newU,oldU) {
-        console.log(newU)
+        this.check_user = newU._id
       },
       onEditorBlur(quill) {
       },

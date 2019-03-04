@@ -12,8 +12,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/community_manage': {
-//      target: 'http://192.168.200.70:3000', //目标接口域名
-        target: 'http://magix.xyz:3000', //目标接口域名
+        target: 'http://192.168.200.70:3000', //目标接口域名
+//      target: 'http://magix.xyz:3000', //目标接口域名
         changeOrigin: true, //是否跨域
       }
     },
@@ -25,7 +25,7 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-    mock: true,
+    mock: false,
     
     /**
      * Source Maps
