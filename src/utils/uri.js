@@ -14,6 +14,7 @@ export default{
   //房屋信息
   saveHouse:'community_manage/house/save',
   getList:'community_manage/house/list',
+  deleteHouse:'community_manage/house/delete',
   // 上传图片
   upload:'community_manage/upload/binary',
 }

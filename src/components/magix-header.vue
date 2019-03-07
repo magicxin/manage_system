@@ -1,5 +1,5 @@
 <template>
-  <div class="magix-header">
+  <div class="tab-bar">
     <el-menu
       :default-active="onRoute"
       class="el-menu"
@@ -53,25 +53,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-  .magix-header {
-    display:flex;
-    .options {
-      display:flex;
-      flex-grow: 1;
-      justify-content: flex-end;
-      align-items:center;
-      color: rgb(255, 255, 255);
-      background-color: rgb(64, 158, 255);
-    }
-    .option-item {
-      cursor: pointer;
-      padding:0 1.4rem;
-    }
-    .el-menu {
-      padding-left:3rem;
-    }
-    .el-menu.el-menu--horizontal {
-      border-bottom:none;
-    }
+  .tab-bar {
+    
   }
 </style>

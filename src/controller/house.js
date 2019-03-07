@@ -40,6 +40,19 @@ function getUserList(params) {
     })
   })
 }
+/*
+ @desc 删除
+ * */
+function deleteHouse(params) {
+  return new Promise((resolve,reject)=>{
+    this.$post(uri.deleteHouse,params).then(res=>{
+      resolve(res)
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
 function makeTableData(res) {
   let newArr = []
   if(res.house.length>0) {
@@ -50,7 +63,8 @@ function makeTableData(res) {
         unit:  item.unit,
         room: item.room,
         numbered:item.numbered,
-        user:item.user
+        user:item.user,
+        _id:item._id
       })
     })
   }
@@ -71,5 +85,5 @@ function makeUserTableData(res) {
   return newArr
 }
 export {
-  saveHouse,getList,getUserList
+  saveHouse,getList,getUserList,deleteHouse
 }

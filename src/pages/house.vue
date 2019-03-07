@@ -10,7 +10,7 @@
       <el-table-column prop="room" label="室" width="180"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="deleteHouse">删除</el-button>
+          <el-button type="text" size="small" @click="deleteHouse(scope.row)">删除</el-button>
           <!--<el-button type="text" size="small">权限</el-button>-->
         </template>
       </el-table-column>
@@ -58,7 +58,7 @@
 
 <script>
   import magixControl from 'components/magix-control'
-  import { saveHouse,getList,getUserList } from 'controller/house'
+  import { saveHouse,getList,getUserList,deleteHouse } from 'controller/house'
   export default {
     name: 'house',
     components: { magixControl },
@@ -107,8 +107,11 @@
           }
         }
       },
-      deleteHouse() {
-        
+      deleteHouse(o) {
+        console.log(o)
+        deleteHouse.bind(this)([o._id]).then(res=>{
+          console.log(res)
+        })
       },
       add() {
         this.initData()

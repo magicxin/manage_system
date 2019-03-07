@@ -33,7 +33,7 @@
           <el-input v-model="form.sub" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="正文" :label-width="formLabelWidth">
-          <quill-editor v-model="form.content"
+          <quill-editor class="editor" v-model="form.content"
                 ref="myQuillEditor"
                 :options="editorOption"
                 @blur="onEditorBlur($event)"
@@ -251,6 +251,14 @@
     .pagination {
       padding:1rem 1rem 3rem 1rem;
       text-align: center;
+    }
+    .editor {
+      height:280px;
+      margin-bottom:4rem;
+    }
+    .ql-editor{
+      height:100%;
+      overflow-y: scroll;
     }
   }
 </style>
