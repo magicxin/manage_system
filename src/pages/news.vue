@@ -98,6 +98,7 @@
         }
       }
     },
+    // 初始化
     mounted() {
       searchNews.bind(this)({count:10,index:0}).then(res=>{
         console.log(this)
@@ -108,6 +109,7 @@
       })
     },
     methods: {
+    	// 初始化form表单
       initData(form) {
         if(form) {
             this.form = {
@@ -130,10 +132,12 @@
         }
         
       },
+      // 新增资讯
       add() {
         this.initData()
         this.dialogFormVisible = true
       },
+      // 查看资讯详情
       openDetail(form) {
         this.initData(form)
         this.dialogFormVisible = true
@@ -146,6 +150,7 @@
       onEditorReady(quill) {
         
       },
+      // 保存按钮
       submit() {
         this.dialogFormVisible = false
         saveNews.bind(this)({

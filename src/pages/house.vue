@@ -15,6 +15,8 @@
         </template>
       </el-table-column>
     </el-table>
+    
+    <el-pagination class="pagination" background layout="prev, pager, next" :total="length" @current-change="currentChange"></el-pagination>
     <el-dialog title="房屋信息" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="小区" :label-width="formLabelWidth">
@@ -33,7 +35,7 @@
           <el-input v-model="form.numbered" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="房主" :label-width="formLabelWidth">
-          <el-input v-model="form.userId" autocomplete="off" @focus="showTable"></el-input>
+          <el-input v-model="form.userId" autocomplete="off" @focus="showTable" readonly></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -74,18 +76,24 @@
         },
         gridData: [],
         dialogTableVisible: false,
-        check_user:''
+        check_user:'',
+        length:0
       }
     },
     created() {
-      getList.bind(this)().then(res=>{
-        this.tableData = res
-      })
+      this.init({count:10,index:0})
       getUserList.bind(this)({type:'2'}).then(res=>{
         this.gridData = res
       })
     },
     methods: {
+    	init(params) {
+    		getList.bind(this)(params).then(res=>{
+    			console.log(res)
+	        this.tableData = res.house
+	        this.length = res.length
+	      })
+    	},
       initData(form) {
         if(form) {
             this.form = {
@@ -109,9 +117,16 @@
       },
       deleteHouse(o) {
         console.log(o)
-        deleteHouse.bind(this)([o._id]).then(res=>{
-          console.log(res)
+        this.deleteMsg('此操作将永久删除该文件, 是否继续?').then(()=>{
+          deleteHouse.bind(this)([o._id]).then(res=>{
+	          this.$message('删除成功！');
+	          this.init()
+	        })
+	        .catch(err=>{
+	        	this.$message(err.message);
+	        })
         })
+        
       },
       add() {
         this.initData()
@@ -120,6 +135,13 @@
       submit() {
         saveHouse.bind(this)(this.form).then(res=>{
           console.log(res)
+          this.$message('保存成功！');
+          this.dialogFormVisible = false
+          this.init()
+          this.initData()
+        })
+        .catch(err=>{
+        	this.$message(err.message);
         })
       },
       showTable() {
@@ -138,6 +160,10 @@
       },
       onEditorReady(quill) {
       },
+      currentChange(i) {
+        console.log(i)
+        this.init({count:10,index:i-1})
+      },
     }
   }
 </script>
@@ -145,6 +171,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
   .house {
-    
+    .pagination {
+      padding:1rem 1rem 3rem 1rem;
+      text-align: center;
+    }
   }
 </style>

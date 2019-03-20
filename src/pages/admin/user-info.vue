@@ -8,9 +8,9 @@
         <el-form-item label="昵称：">
           <el-input v-model="form.nickname"></el-input>
         </el-form-item>
-        <el-form-item label="密码：">
+        <!--<el-form-item label="密码：">
           <span>{{ form.password }}</span>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="车牌号：">
           <el-input v-model="form.carNum"></el-input>
         </el-form-item>
@@ -52,15 +52,26 @@
     },
     methods: {
       update() {
-        update.bind(this)({
-          username:this.user.username,
-          nickname:this.form.nickname,
-          car:{carNumber:this.form.carNum},
-          house:{address:this.form.address}
-        }).then(res=>{
-          this.$store.commit('admin/updateUser',res.user)
-          this.$message('保存成功')
-        })
+      	this.$confirm('所有修改将保存, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+        	update.bind(this)({
+	          username:this.user.username,
+	          nickname:this.form.nickname,
+	          car:{carNumber:this.form.carNum},
+	          house:{address:this.form.address}
+	        }).then(res=>{
+	          this.$store.commit('admin/updateUser',res.user)
+	          this.$message('保存成功')
+	        })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消更改'
+          });          
+        });
       }
     }
   }

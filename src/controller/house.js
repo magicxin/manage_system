@@ -19,7 +19,7 @@ function saveHouse(params) {
  * */
 function getList(params) {
   return new Promise((resolve,reject)=>{
-    this.$get(uri.getList,params).then(res=>{
+    this.$get(uri.getList,{params:params}).then(res=>{
       resolve(makeTableData(res))
     })
     .catch(err=>{
@@ -54,10 +54,14 @@ function deleteHouse(params) {
   })
 }
 function makeTableData(res) {
-  let newArr = []
+	let newObj = {
+		house: [],
+		length: 0
+	}
   if(res.house.length>0) {
+  	newObj.length = res.length
     res.house.forEach((item,index)=>{
-      newArr.push({
+      newObj.house.push({
         community: item.community,
         building:  item.building,
         unit:  item.unit,
@@ -68,7 +72,7 @@ function makeTableData(res) {
       })
     })
   }
-  return newArr
+  return newObj
 }
 function makeUserTableData(res) {
   let newArr = []

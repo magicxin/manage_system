@@ -1,5 +1,5 @@
 export default{
-  login:'/community_manage/user/login',
+  login:'/community_manage/user/admin_login',
   signout:'community_manage/user/signout',
   signin:'community_manage/user/create',
   getUser:'community_manage/user/search',
