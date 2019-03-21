@@ -11,12 +11,18 @@
         <!--<el-form-item label="密码：">
           <span>{{ form.password }}</span>
         </el-form-item>-->
-        <el-form-item label="车牌号：">
+        <!--<el-form-item label="车牌号：">
           <el-input v-model="form.carNum"></el-input>
+        </el-form-item>-->
+        <!--<el-form-item label="栋：">
+          <el-input v-model="form.address" readonly></el-input>
         </el-form-item>
-        <el-form-item label="地址：">
-          <el-input v-model="form.address"></el-input>
+        <el-form-item label="单元：">
+          <el-input v-model="form.address" readonly></el-input>
         </el-form-item>
+        <el-form-item label="室：">
+          <el-input v-model="form.address" readonly></el-input>
+        </el-form-item>-->
         <el-form-item label="权限：">
           <span>{{ ADMIN_TYPE[form.type] }}</span>
         </el-form-item>

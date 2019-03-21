@@ -69,7 +69,7 @@ const mutations = {
 //},
   signout(state) {
     //登出的时候要清除token
-    router.replace('login')
+    router.replace('/login')
     state.token = null;
     state.user = null;
     window.localStorage.removeItem('token');
