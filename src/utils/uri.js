@@ -7,6 +7,7 @@ export default{
   changeAuth:'community_manage/user/changeAuth',
   update:'community_manage/user/update',
   resetPassword:'/community_manage/user/reset_pass',
+  deleteUser:'/community_manage/user/delete',
   
   // 资讯
   saveNews:'community_manage/news/save',

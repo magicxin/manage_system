@@ -4,9 +4,9 @@ import { ADMIN_TYPE,ADMIN_STATU } from 'utils/enum'
 /*
  @desc 获取用户列表
  * */
-function getUser(type) {
+function getUser(params) {
   return new Promise((resolve,reject)=>{
-    this.$get(uri.getUser,{params:{type:type}}).then(res=>{
+    this.$get(uri.getUser,{params:params}).then(res=>{
       resolve(makeData(res))
     })
     .catch(err=>{
@@ -15,14 +15,19 @@ function getUser(type) {
   })
 }
 function makeData(res) {
-  let newArr = []
+  let newObj = {
+    users: [],
+    length:0
+  }
   if(res.users.length>0) {
+    newObj.length = res.length
     res.users.forEach((item,index)=>{
-      newArr.push({
+      newObj.users.push({
         username:item.username,
         name:item.nickname,
         address:item.house&&item.house.address || '-',
         date:utils.dateFormat(item.meta.createAt),
+        _id:item._id,
         type:{
           name:ADMIN_TYPE[item.type],
           value:item.type
@@ -34,7 +39,7 @@ function makeData(res) {
       })
     })
   }
-  return newArr
+  return newObj
 }
 
 /*
@@ -91,11 +96,25 @@ function resetPassword(params) {
     })
   })
 }
+/*
+ @desc 删除用户
+ * */
+function deleteUser(params) {
+  return new Promise((resolve,reject)=>{
+    this.$post(uri.deleteUser,params).then(res=>{
+      resolve(res)
+    })
+    .catch(err=>{
+      reject(err)
+    })
+  })
+}
 
 export {
   getUser,
   checkUser,
   changeAuth,
   update,
-  resetPassword
+  resetPassword,
+  deleteUser
 }
