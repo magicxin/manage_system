@@ -9,7 +9,7 @@
         <div class="box-content">
           <p class="sub">{{ item.sub }}</p>
           <div class="foot">
-            <span class="author">{{ item.user.nickname }}</span>
+            <span class="author">{{ item.user&&item.user.nickname }}</span>
             <time class="time">{{ item.meta.updateAt|dateFormat }}</time>
           </div>
         </div>
